@@ -59,7 +59,8 @@ def view_pending_tasks(task_list):
     # Display the items along with their original index numbers
     for idx, task in enumerate(task_list):
         if not task["completed"]:
-            print(f"[{idx}] Title: {task['title']}")
+            # Show 1-based indices to the user for clarity
+            print(f"[{idx+1}] Title: {task['title']}")
             print(f"    Description: {task['description']}")
             print(f"    Due Date: {task['due_date']}\n")
 
