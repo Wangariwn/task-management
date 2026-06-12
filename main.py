@@ -1,18 +1,16 @@
-# Import functions from task_utils package directly
+# Import functions from task_manager.task_utils package
 from task_utils import (
     add_task, 
     mark_task_as_complete, 
     view_pending_tasks, 
-    calculate_progress
+    calculate_progress,
+    tasks
 )
 
 # Define the main function
 def main():
-    # Initialize the task list data structure required by the system
-    task_list = []
-    
     while True:
-        print("\nTask Management System")
+        print("Task Management System")
         print("1. Add Task")
         print("2. Mark Task as Complete")
         print("3. View Pending Tasks")
@@ -28,13 +26,9 @@ def main():
             add_task(title, description, due_date)
             
         elif choice == "2":
-            view_pending_tasks()
-            try:
-                task_index = int(input("Enter the task number to mark as complete: "))
-                mark_task_as_complete(task_index)
-            except ValueError:
-                print("Invalid input. Please enter a number.")
-                
+            index_input = input("Enter the index of the task to mark as complete: ")
+            mark_task_as_complete(index_input)
+            
         elif choice == "3":
             view_pending_tasks()
             
