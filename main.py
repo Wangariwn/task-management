@@ -1,14 +1,14 @@
-from task_utils import (
+from task_manager.task_utils import (
     add_task,
     mark_task_as_complete,
     view_pending_tasks,
-    calculate_progress
+    calculate_progress,
+    tasks
 )
-
 
 def main():
     while True:
-        print("Task Management System")
+        print("\nTask Management System")
         print("1. Add Task")
         print("2. Mark Task as Complete")
         print("3. View Pending Tasks")
@@ -18,28 +18,44 @@ def main():
         choice = input("Enter your choice (1-5): ")
 
         if choice == "1":
+
             title = input("Enter task title: ")
             description = input("Enter task description: ")
             due_date = input("Enter due date (YYYY-MM-DD): ")
+
             add_task(title, description, due_date)
 
         elif choice == "2":
-            index_input = input("Enter task index: ")
-            mark_task_as_complete(index_input)
+
+            if len(tasks) == 0:
+                print("No tasks available.")
+                continue
+
+            for i, task in enumerate(tasks):
+                status = "Completed" if task["completed"] else "Pending"
+                print(f"{i + 1}. {task['title']} ({status})")
+
+            task_number = int(input("Enter task number to complete: "))
+
+            mark_task_as_complete(task_number - 1)
 
         elif choice == "3":
+
             view_pending_tasks()
 
         elif choice == "4":
-            print(calculate_progress())
+
+            progress = calculate_progress()
+
+            print(f"Progress: {progress:.2f}%")
 
         elif choice == "5":
-            print("Exiting program...")
+
+            print("Exiting the program...")
             break
 
         else:
-            print("Invalid choice.")
-
+            print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
     main()

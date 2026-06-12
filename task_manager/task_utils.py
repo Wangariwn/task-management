@@ -1,4 +1,6 @@
-from validation import (
+from datetime import datetime
+
+from task_manager.validation import (
     validate_task_title,
     validate_task_description,
     validate_due_date
@@ -6,50 +8,67 @@ from validation import (
 
 tasks = []
 
-
 def add_task(title, description, due_date):
-    title = validate_task_title(title)
-    description = validate_task_description(description)
-    due_date = validate_due_date(due_date)
 
-    if title is None or description is None or due_date is None:
-        return False
+    if not validate_task_title(title):
+        return
 
-    tasks.append({
+    if not validate_task_description(description):
+        return
+
+    if not validate_due_date(due_date):
+        return
+
+    task = {
         "title": title,
         "description": description,
         "due_date": due_date,
         "completed": False
-    })
+    }
+
+    tasks.append(task)
 
     print("Task added successfully!")
-    return True
 
+def mark_task_as_complete(index, tasks=tasks):
 
-def mark_task_as_complete(index):
-    try:
-        index = int(index) - 1
+    if index < 0 or index >= len(tasks):
+        print("Invalid task number.")
+        return
 
-        if 0 <= index < len(tasks):
-            tasks[index]["completed"] = True
-            print("Task marked as complete!")
-            return True
+    tasks[index]["completed"] = True
 
-        return False
+    print("Task marked as complete!")
 
-    except ValueError:
-        return False
+def view_pending_tasks(tasks=tasks):
 
+    found = False
 
-def view_pending_tasks():
     for i, task in enumerate(tasks):
+
         if not task["completed"]:
-            print(f"[{i}] {task['title']} - {task['description']} - {task['due_date']}")
+            found = True
 
+            print(
+                f"{i + 1}. {task['title']} - "
+                f"{task['description']} "
+                f"(Due: {task['due_date']})"
+            )
 
-def calculate_progress():
+    if not found:
+        print("No pending tasks.")
+
+def calculate_progress(tasks=tasks):
+
     if len(tasks) == 0:
-        return 0.0
+        progress = 0
+    else:
+        completed = 0
 
-    completed = sum(1 for t in tasks if t["completed"])
-    return float((completed / len(tasks)) * 100)
+        for task in tasks:
+            if task["completed"]:
+                completed += 1
+
+        progress = (completed / len(tasks)) * 100
+
+    return progress
