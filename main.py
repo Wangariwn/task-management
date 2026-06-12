@@ -8,7 +8,7 @@ from task_utils import (
 
 def main():
     while True:
-        print("\nTask Management System")
+        print("Task Management System")
         print("1. Add Task")
         print("2. Mark Task as Complete")
         print("3. View Pending Tasks")
@@ -21,7 +21,6 @@ def main():
             title = input("Enter task title: ")
             description = input("Enter task description: ")
             due_date = input("Enter due date (YYYY-MM-DD): ")
-
             add_task(title, description, due_date)
 
         elif choice == "2":
@@ -32,15 +31,14 @@ def main():
             view_pending_tasks()
 
         elif choice == "4":
-            progress = calculate_progress()
-            print(progress)
+            print(calculate_progress())
 
         elif choice == "5":
             print("Exiting program...")
             break
 
         else:
-            print("Invalid choice. Please try again.")
+            print("Invalid choice.")
 
 
 if __name__ == "__main__":

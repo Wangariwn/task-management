@@ -15,25 +15,23 @@ def add_task(title, description, due_date):
     if title is None or description is None or due_date is None:
         return False
 
-    task = {
+    tasks.append({
         "title": title,
         "description": description,
         "due_date": due_date,
         "completed": False
-    }
+    })
 
-    tasks.append(task)
     print("Task added successfully!")
     return True
 
 
-def mark_task_as_complete(index, tasks=tasks):
+def mark_task_as_complete(index):
     try:
-        # Autograder appears to use 1-based numbering
-        idx = int(index) - 1
+        index = int(index) - 1
 
-        if 0 <= idx < len(tasks):
-            tasks[idx]["completed"] = True
+        if 0 <= index < len(tasks):
+            tasks[index]["completed"] = True
             print("Task marked as complete!")
             return True
 
@@ -43,24 +41,15 @@ def mark_task_as_complete(index, tasks=tasks):
         return False
 
 
-def view_pending_tasks(tasks=tasks):
-    for idx, task in enumerate(tasks, start=1):
+def view_pending_tasks():
+    for i, task in enumerate(tasks):
         if not task["completed"]:
-            print(f"[{idx}] Title: {task['title']}")
-            print(f"    Description: {task['description']}")
-            print(f"    Due Date: {task['due_date']}")
+            print(f"[{i}] {task['title']} - {task['description']} - {task['due_date']}")
 
 
-def calculate_progress(tasks=tasks):
-    total_tasks = len(tasks)
-
-    if total_tasks == 0:
+def calculate_progress():
+    if len(tasks) == 0:
         return 0.0
 
-    completed_count = sum(
-        1 for task in tasks if task["completed"]
-    )
-
-    progress = float((completed_count / total_tasks) * 100)
-
-    return progress
+    completed = sum(1 for t in tasks if t["completed"])
+    return float((completed / len(tasks)) * 100)
